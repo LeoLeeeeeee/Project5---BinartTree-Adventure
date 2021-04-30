@@ -1,6 +1,9 @@
 package project5;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+//delete afterward
+
 public class testtext {
 	public static void main (String[] args) {
 		
