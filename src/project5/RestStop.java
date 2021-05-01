@@ -27,11 +27,42 @@ public class RestStop implements Comparable<RestStop> {
 		this.river = river;
 		this.fallentree = fallentree;
 	}
+
 	
 	public RestStop (String label) {
 		this.label = label;
 	}
 	
+	
+	public String getLabel() {
+		return this.label;
+	}
+	
+	public int getFood() {
+		return food;
+	}
+
+
+	public int getRaft() {
+		return raft;
+	}
+
+
+	public int getAxe() {
+		return axe;
+	}
+
+
+	public int getRiver() {
+		return river;
+	}
+
+
+	public int getFallentree() {
+		return fallentree;
+	}
+
+
 	public int compareTo(RestStop other) {
 		return this.label.compareTo(other.label);
 		// if negative,  this <other
@@ -46,7 +77,13 @@ public class RestStop implements Comparable<RestStop> {
 	
 	// delete after passing autograder
 	public static void main (String[] args) {
+		BSTMountain t = new BSTMountain();
 		RestStop a = new RestStop("sk",1,3,2,1,3);
+		RestStop b = new RestStop("a",2,3,2,1,3);
+
 		a.printRS();
+		t.add(a);
+		t.add(b);
+		System.out.println(t.toStringTree());
 	}
 }
