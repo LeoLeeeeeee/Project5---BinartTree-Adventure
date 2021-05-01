@@ -14,14 +14,12 @@ public class BSTMountain {
 		explore (hiker, peek);
 	}
 	
-	private void explore(Hiker hiker, BSTNode peek) {
-		if (peek == null && hiker.getMountainLevel() == hiker.getTotalLevel()) {
-			System.out.println("success!");
-			return;
-		}
+	private void explore(Hiker hiker, BSTNode peek) {	
+		//update height
+		hiker.setMountainLevel(peek.level);
 		
-		if (peek == null && hiker.getMountainLevel() < hiker.getTotalLevel()) {
-			System.out.println("fall from cliff");
+		if (peek.left == null && peek.right == null  && hiker.getMountainLevel() < hiker.getTotalLevel()) {
+			System.out.println("fall from cliff" + peek.data.getLabel());
 			return;
 		}
 		
@@ -32,27 +30,38 @@ public class BSTMountain {
 		hiker.setRaft(hiker.getRaft()+peek.data.getRaft());
 		*/
 		if ((hiker.getAxe()+peek.data.getAxe())<peek.data.getFallentree()) {
-			System.out.println("tree blocked");
+			System.out.println("tree blocked"+ peek.data.getLabel());
 			return;
 		}
 		if ((hiker.getRaft()+peek.data.getRaft())<peek.data.getRiver()) {
-			System.out.println("river blocked");
+			System.out.println("river blocked"+ peek.data.getLabel());
 			return;
 		}
-		if ((hiker.getFood()+peek.data.getFood())<1) {
-			System.out.println("running out of food");
+		if ((!(peek.left== null &peek.right == null)&&(hiker.getFood()+peek.data.getFood())<1)) {
+			System.out.println("running out of food"+ peek.data.getLabel());
 			return;
 		}
+		
+		//reach the bottom and pass all obstacles
+		if (hiker.getMountainLevel() == hiker.getTotalLevel()) {
+			System.out.println("success!"+peek.data.getLabel());
+			return;
+		}
+		
 		//use supply
 		hiker.setAxe(hiker.getAxe()+peek.data.getAxe()-peek.data.getFallentree());
 		hiker.setRaft(hiker.getRaft()+peek.data.getRaft()-peek.data.getRiver());
 		hiker.setFood(hiker.getFood()+peek.data.getFood()-1);
 		
-		//update height
-		hiker.setMountainLevel(peek.level);
 		
-		explore(hiker,peek.left);
-		explore(hiker,peek.right);
+		if (peek.left!= null) {
+			explore(hiker,peek.left);
+		}
+		if (peek.right!= null) {
+			explore(hiker,peek.right);
+		}
+		
+		
 		
 	}
 	
