@@ -19,7 +19,7 @@ public class BSTMountain {
 		hiker.setMountainLevel(peek.level);
 		
 		if (peek.left == null && peek.right == null  && hiker.getMountainLevel() < hiker.getTotalLevel()) {
-			System.out.println("fall from cliff" + peek.data.getLabel());
+			//System.out.println("fall from cliff" + peek.data.getLabel());
 			return;
 		}
 		
@@ -30,21 +30,22 @@ public class BSTMountain {
 		hiker.setRaft(hiker.getRaft()+peek.data.getRaft());
 		*/
 		if ((hiker.getAxe()+peek.data.getAxe())<peek.data.getFallentree()) {
-			System.out.println("tree blocked"+ peek.data.getLabel());
+			//System.out.println("tree blocked"+ peek.data.getLabel());
 			return;
 		}
 		if ((hiker.getRaft()+peek.data.getRaft())<peek.data.getRiver()) {
-			System.out.println("river blocked"+ peek.data.getLabel());
+			//System.out.println("river blocked"+ peek.data.getLabel());
 			return;
 		}
 		if ((!(peek.left== null &peek.right == null)&&(hiker.getFood()+peek.data.getFood())<1)) {
-			System.out.println("running out of food"+ peek.data.getLabel());
+			//System.out.println("running out of food"+ peek.data.getLabel());
 			return;
 		}
 		
 		//reach the bottom and pass all obstacles
 		if (hiker.getMountainLevel() == hiker.getTotalLevel()) {
-			System.out.println("success!"+peek.data.getLabel());
+			//System.out.println("success!"+peek.data.getLabel());
+			System.out.println(getPath());
 			return;
 		}
 		
@@ -55,17 +56,30 @@ public class BSTMountain {
 		
 		
 		if (peek.left!= null) {
+			peek.data.setDirection("L");
 			explore(hiker,peek.left);
 		}
 		if (peek.right!= null) {
+			peek.data.setDirection("R");
 			explore(hiker,peek.right);
 		}
-		
-		
-		
 	}
-	
-	
+	public String getPath() {
+		return getPath(peek);
+	}
+	private String getPath(BSTNode peek) {
+		String label = peek.data.getLabel()+ " ";
+		String direction = peek.data.getDirection();
+		if (direction == "R") {
+			return label + getPath(peek.right);
+		}
+		else if (direction == "L") {
+			return label + getPath(peek.left);
+		}
+		else {
+			return label;
+		}
+	}
 	
 	public void add(RestStop rs) {
 		if (rs== null) {

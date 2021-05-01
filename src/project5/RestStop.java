@@ -18,7 +18,18 @@ public class RestStop implements Comparable<RestStop> {
 	private int axe;
 	private int river;
 	private int fallentree;
+	private String direction;
 	
+	public String getDirection() {
+		return direction;
+	}
+
+
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
+
+
 	public RestStop(String label,int food, int raft, int axe, int river, int fallentree) {
 		this.label = label;
 		this.food = food;
