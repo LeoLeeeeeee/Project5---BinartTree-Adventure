@@ -1,19 +1,36 @@
 package project5;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+/**
+ * This application finds all paths through a BST Mountain 
+ * This is the class that has the main method. This class is responsible for parsing and validating the command line arguments,
+ * reading and parsing the input file, producing any error messages, handling any exceptions thrown by other classes,
+ * and producing output.
+ * @author Yiang Li (Leo)
+ * @version 2021/05/01
+ *
+ */
 public class BSTMountainAdventure {
 
 
 	/**
-	 * The main() method of this program. 
-	 * @param args array of Strings provided on the command line when the program is started; 
-	 * the first string should be the name of the input file containing the list of named colors. 
+	 * The main() method of this program. This method is helping the hiker to find each possible way
+	 * to go from the top of the mountain to the bottom if there are ways
+	 * @param args array of Strings on command line is read when the program is started; 
+	 * the first string should be the name of the input file. 
 	 */
+
 	public static void main(String[] args) {
+
+		/** line 36 to line 63 are my paraphrasing, it is from @author Joanna Klukowska
+		 * I cited this part on May 1th, 2021
+		 * This code is paraphrased from Professor Klulkowska's ColorConverter from ED Workspace
+		 * You could find similar codes from 
+		 * https://edstem.org/us/courses/3906/workspaces/pBSLx4PAZFAusHxD2yDEPMV9zXksyGgt
+		 */
 
 		//verify the command line argument exists 
 		if (args.length == 0 ) {
@@ -72,7 +89,7 @@ public class BSTMountainAdventure {
 					OList.add(parseLine.next());
 				}
 
-				//deal with fallen tree, make fallen and tree into one place
+				//deal with fallen tree, merge fallen and tree into one index to make it easier when creating RestStop object
 				int indexFallen = OList.indexOf("fallen");
 				while (indexFallen != -1) {
 					if (OList.get(indexFallen+1).equals("tree")) {
@@ -85,6 +102,8 @@ public class BSTMountainAdventure {
 					indexFallen = OList.indexOf("fallen");
 				}
 
+				// to find whether does the obstacle items start, everything including supplies are not
+				// saved after the index of obstacle
 				int indexF = OList.indexOf("fallen tree");
 				int indexR = OList.indexOf("river");
 				int indexObstacle =-1;
@@ -105,6 +124,7 @@ public class BSTMountainAdventure {
 					indexObstacle = indexF;
 				}
 
+				//record the number of supplies: foods, rafts and axes
 				for (int i = 0; i<indexObstacle;i++) {
 					if (OList.get(i).equals("food")) {
 						food++;
@@ -120,6 +140,7 @@ public class BSTMountainAdventure {
 					}
 				}
 
+				//record the number of obstacle: fallen tree, river
 				for (int i = indexObstacle;i<OList.size();i++) {
 					if (OList.get(i).equals("fallen tree")) {
 						fallentree++;
@@ -137,6 +158,8 @@ public class BSTMountainAdventure {
 				System.err.println(line);
 				continue; 	
 			}
+
+			//try to add the RestStop
 			try {
 				current = new RestStop(label, food, raft, axe, river, fallentree);
 				tree.add(  current  ); 
@@ -146,32 +169,16 @@ public class BSTMountainAdventure {
 			}
 		}
 
+		//after creating the BSTMountain, we update all the levels of each RestStop
 		tree.updateLevel();
+
+		//create a hiker object with the maxlevel of the mountain
 		int maxLevel = tree.maxLevel();
 		Hiker hiker = new Hiker(maxLevel);
+
+		//explore the mountain and print the path
 		tree.explore(hiker);
-				
-		// print the tree
-		//System.out.print(tree.toStringTree());
-
-	} // end of main methor
-	
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	} 
 }
